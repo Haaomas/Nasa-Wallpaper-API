@@ -1,6 +1,4 @@
-import datetime
-import urllib.request, json
-
+import datetime, random, urllib.request, json, ctypes
 
 """
 1 - Get the daily image from the NASA API (using the date of the computer)
@@ -12,35 +10,54 @@ import urllib.request, json
 Bonus : 
 Keep the metadata of the img 
 """
-    
+
 # 1 - Get the daily image from the NASA API (using the date of the computer)
 # Get the basic URL of the API
-NasaApi = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
+NASA_API = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date="
 
-# Get the date of the day with the good format for the API 
-dateOfTheDay = datetime.datetime.now()
-dateOfTheDay = dateOfTheDay.strftime("%Y-%m-%d")
+# Date for the random_date function in case the post of the day is a video (between 2010 for HD content and the date of when the software is over to get wallpaper that I nerver saw before)
+start_date = datetime.date(2010, 1, 1)
+end_date = datetime.date(2022, 8, 16)
 
-# Concatenate to get the img of the day 
-NasaApi = NasaApi + "&date=" + dateOfTheDay
+# Get the date of the day with the good format for the API
+date_of_the_day = datetime.datetime.now()
+date_of_the_day = date_of_the_day.strftime("%Y-%m-%d")
 
-# Get the json data from the picture 
-response = urllib.request.urlopen(NasaApi)
-NasaData = json.loads(response.read())
-print(NasaData['url'])
+# Concatenate to get the img of the day (exemple with 2022-08-14 for a video)
+nasa_api_of_the_day = NASA_API + "2022-08-14"
+# NASA_API = NASA_API + date_of_the_day
 
-# 2 - Save the Image in a folder 
-imgTitle = NasaData['title'] + " " + dateOfTheDay + ".jpg"
-print('imgTitle: ', imgTitle)
-pathToFolder = "C:/Users/barre/OneDrive/Images/Nasa Wallpaper Python/" + imgTitle
-print('pathToFolder: ', pathToFolder)
-urllib.request.urlretrieve(NasaData['url'], pathToFolder)
+# Get the json data from the picture
+response = urllib.request.urlopen(nasa_api_of_the_day)
+nasa_data = json.loads(response.read())
+
+# Return a date between the two argument in (YYYY-MM-DD)
+def random_date(start_date, end_date):
+    time_between_dates = end_date - start_date
+    days_between_dates = time_between_dates.days
+    random_number_of_days = random.randrange(days_between_dates)
+    date_of_the_day = start_date + datetime.timedelta(days=random_number_of_days)
+    return date_of_the_day.strftime("%Y-%m-%d")
 
 
+# Get only the img
+while nasa_data["media_type"] != "image":
+    # Function random date
+    date_of_the_day = random_date(start_date, end_date)
+    nasa_api_of_the_day = NASA_API + date_of_the_day
+    response = urllib.request.urlopen(nasa_api_of_the_day)
+    nasa_data = json.loads(response.read())
+    print("nasa_data: ", nasa_data)
 
-# 3 - Rename the image with the date of the day 
-# 4 - Set a time when the wallpaper should change (10am) 
-# 5 - Change the wallpaper with the image of the day (same as the date of the computer)
-# 6 - Delete the image older than 7 days 
-    
-    
+# # 2 - Save the Image in a folder and rename it
+# Rename the img
+img_title = nasa_data["title"] + " " + date_of_the_day + ".jpg"
+# Get the path for the save and download the img
+path_to_img = "C:/Users/barre/OneDrive/Images/Nasa Wallpaper Python/" + img_title
+urllib.request.urlretrieve(nasa_data["hdurl"], path_to_img)
+
+# 3 - Change the wallpaper with the image of the day (same as the date of the computer)
+
+# 4 - Set a time when the wallpaper should change (10am)
+
+# 5 - Delete the image older than 7 days
