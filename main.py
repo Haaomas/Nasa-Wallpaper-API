@@ -57,6 +57,7 @@ path_to_img = "C:/Users/barre/OneDrive/Images/Nasa Wallpaper Python/" + img_titl
 urllib.request.urlretrieve(nasa_data["hdurl"], path_to_img)
 
 # 3 - Change the wallpaper with the image of the day (same as the date of the computer)
+ctypes.windll.user32.SystemParametersInfoW(20, 0, path_to_img, 0)
 
 # 4 - Set a time when the wallpaper should change (10am)
 
