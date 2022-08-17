@@ -14,7 +14,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Haaomas/Nasa-Wallpaper-API">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://graphiste.com/blog/wp-content/uploads/2019/08/1920px-NASA_logo.svg-e1567160347263.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Nasa Daily Wallpaper</h3>
