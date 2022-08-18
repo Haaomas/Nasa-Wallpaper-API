@@ -23,11 +23,12 @@ wallpaper_icon = ImageTk.PhotoImage(Image.open(PATH).resize((60, 60)))
 panel = Label(windows, image=wallpaper_icon, bd=0)
 panel.place(x=20, y=40)
 
-font_1 = Font(
+font_title = Font(
     family="Bauhaus 93",
     size=12,
     weight="normal",
 )
+font_artist = Font(family="Bauhaus 93", size=10, weight="normal", slant="italic")
 
 # Wallpaper texte
 wallpaper_texte = Label(
@@ -36,7 +37,7 @@ wallpaper_texte = Label(
     wraplength=280,
     fg="#8c8c7a",
     bg="#1e2227",
-    font=font_1,
+    font=font_title,
 )
 wallpaper_texte.place(x=20, y=10)
 
@@ -53,22 +54,34 @@ title_picture = Label(
     fg="#FFF",
     bg="#1e2227",
     cursor="hand2",
-    font=font_1,
+    font=font_title,
 )
 title_picture.place(x=100, y=40)
 title_picture.bind(
     "<Button-1>", lambda e: callback("https://apod.nasa.gov/apod/ap220818.html")
 )
 
+# Title of the artiste
+title_artist = Label(
+    windows,
+    text="Juan Carlos Casado",
+    wraplength=180,
+    fg="#FFF",
+    bg="#1e2227",
+    cursor="hand2",
+    font=font_artist,
+)
+title_artist.place(x=100, y=80)
+
 
 # Button Left and Right
 btn_left = Button(
-    windows, text="<- Previous", command=printhi, bg="#1e2227", font=font_1, bd=0
+    windows, text="<- Previous", command=printhi, bg="#1e2227", font=font_title, bd=0
 )
 btn_left.place(x=20, y=120)
 
 btn_right = Button(
-    windows, text="Next ->", command=printhi, bg="#1e2227", font=font_1, bd=0
+    windows, text="Next ->", command=printhi, bg="#1e2227", font=font_title, bd=0
 )
 btn_right.place(x=240, y=120)
 
