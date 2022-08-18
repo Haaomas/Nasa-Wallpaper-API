@@ -69,7 +69,7 @@ ctypes.windll.user32.SystemParametersInfoW(20, 0, path_to_img, 0)
 # To change if we want more or less time
 SECONDE_IN_WEEK = 604800
 
-#
+# Read the variable's name
 timestamp_of_the_day = datetime.datetime.now().timestamp()
 
 # Get a dictionary of all the files in the PATH
@@ -94,7 +94,7 @@ def delete_file_after_amount_of_time(files, path_to_folder, timestamp, amount_of
             print(f"Delete of the file {files[file]} complete")
 
 
-delete_file_after_amount_of_time(files, PATH, timestamp_of_the_day, 10)
+delete_file_after_amount_of_time(files, PATH, timestamp_of_the_day, SECONDE_IN_WEEK)
 
 
 # * 6 - Set a time when the wallpaper should change (10am)

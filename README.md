@@ -147,7 +147,6 @@ See the [open issues](https://github.com/Haaomas/Nasa-Wallpaper-API/issues) for 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- CONTRIBUTING -->
 ## Contributing
 
