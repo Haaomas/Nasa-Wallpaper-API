@@ -54,11 +54,12 @@ while nasa_data["media_type"] != "image" or loop == 3:
 
 
 # * 3 - Save the Image in a folder and rename it
-# Rename the img
-img_title = nasa_data["title"] + " " + date_of_the_day + ".jpg"
+# Rename wi th the date the img
+img_title = date_of_the_day + ".jpg"
+
 # Get the path for the save and download the img
 path_to_img = PATH + img_title
-urllib.request.urlretrieve(nasa_data["hdurl"], path_to_img)
+saver = urllib.request.urlretrieve(nasa_data["hdurl"], path_to_img)
 
 
 # * 4 - Change the wallpaper with the image of the day (same as the date of the computer)
