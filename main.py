@@ -1,5 +1,8 @@
 # Get the picture of  the day from the NASA API and change the windows wallpaper
-import datetime, random, urllib.request, json, ctypes, os
+import datetime, random, urllib.request, json, ctypes, os, webbrowser
+from tkinter import *
+from tkinter.font import Font
+from PIL import ImageTk, Image
 
 
 # * 1 - Get the daily image from the NASA API (using the date of the computer)
@@ -98,4 +101,114 @@ def delete_file_after_amount_of_time(files, path_to_folder, timestamp, amount_of
 delete_file_after_amount_of_time(files, PATH, timestamp_of_the_day, SECONDE_IN_WEEK)
 
 
-# * 6 - Set a time when the wallpaper should change (10am)
+# * 6 - Get a GUI
+
+
+# Creation of the windows
+windows = Tk()
+# windows.geometry("310x120")
+windows.title("Nasa Daily Wallpaper")
+windows.wm_iconbitmap("nasa.ico")
+windows.config(bg="#1e2227")
+windows.resizable(width=False, height=False)
+
+# Font for the text
+font_title = Font(family="Caladea", size=16, weight="normal")
+font_text = Font(family="Caladea", size=14, weight="normal", underline=TRUE)
+font_artist = Font(family="Caladea", size=12, weight="normal", slant="italic")
+
+
+# Wallpaper texte
+wallpaper_texte = Label(
+    windows,
+    text="WALLPAPER",
+    fg="#8c8c7a",
+    bg="#1e2227",
+    font=font_title,
+)
+wallpaper_texte.grid(row=0, column=0, pady=10, padx=(25, 0))
+
+
+# IMAGE OF THE DAY
+# PATH = "C:/Users/barre/OneDrive/Bureau/Dev/Perso/GitHub/Nasa-Wallpaper-API/img/Full Moon Perseids 2022-08-18.jpg"
+wallpaper_icon = ImageTk.PhotoImage(Image.open(path_to_img).resize((80, 80)))
+panel = Label(windows, image=wallpaper_icon, bd=0)
+# panel.place(x=20, y=40)
+panel.grid(row=1, rowspan=3, column=0, pady=(0, 20))
+
+
+# Define a callback function
+def callback(url):
+    webbrowser.open_new_tab(url)
+
+
+# Title of the picture
+date_of_the_day = date_of_the_day[2:]
+date_of_the_day_no_kebab = date_of_the_day.replace("-", "")
+more_info_img_url = "https://apod.nasa.gov/apod/ap" + date_of_the_day_no_kebab + ".html"
+
+title_picture = Label(
+    windows,
+    text=nasa_data["title"],
+    fg="#3893ef",
+    bg="#1e2227",
+    cursor="hand2",
+    font=font_text,
+)
+title_picture.grid(row=1, column=1, padx=(0, 20))
+title_picture.bind("<Button-1>", lambda e: callback(more_info_img_url))
+
+# # Text of the picture
+# text = img = Label(
+#     windows,
+#     text="The annual Perseid meteor shower was near its peak on August 13. As planet Earth crossed through streams of debris left by periodic Comet Swift-Tuttle meteors rained in northern summer night skies. But even that night's nearly Full Moon shining near the top of this composited view couldn't hide all of the popular shower's meteor streaks. The image captures some of the brightest perseid meteors in many short exposures recorded over more than two hours before the dawn. It places the shower's radiant in the heroic constellation of Perseus just behind a well-lit medieval tower in the village of Sant Llorenc de la Muga, Girona, Spain. Observed in medieval times, the Perseid meteor shower is also known in Catholic tradition as the Tears of St. Lawrence, and festivities are celebrated close to the annual peak of the meteor shower. Joining the Full Moon opposite the Sun, bright planet Saturn also shines in the frame at the upper right.",
+#     wraplength=180,
+#     fg="#FFF",
+#     bg="#1e2227",
+#     font=font_title,
+# )
+# text.grid(row=2, rowspan=2, column=1, columnspan=2, padx=25, pady=10)
+
+
+# Name of the artiste
+if "copyright" in nasa_data:
+    name_artist = Label(
+        windows,
+        text=nasa_data["copyright"],
+        fg="#FFF",
+        bg="#1e2227",
+        font=font_artist,
+    )
+    name_artist.grid(row=2, column=1, pady=(10, 0))
+else:
+    name_artist = Label(
+        windows,
+        text="@Danijel Cecelja",
+        fg="#FFF",
+        bg="#1e2227",
+        font=font_artist,
+    )
+    name_artist.grid(row=2, column=1, pady=(10, 0))
+
+
+# # ! To remove TEST
+# def printhi():
+#     print("Hi!")
+
+# ? Maybe for a next feature
+# # Button Left and Right
+# btn_left = Button(
+#     windows, text="<- Previous", command=printhi, bg="#1e2227", font=font_title, bd=0
+# )
+# btn_left.place(x=20, y=120)
+
+# btn_right = Button(
+#     windows, text="Next ->", command=printhi, bg="#1e2227", font=font_title, bd=0
+# )
+# btn_right.place(x=240, y=120)
+
+
+# Luncher
+windows.mainloop()
+
+# * 7 - Set a time when the wallpaper should change (10am)
